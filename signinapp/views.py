@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages 
 import mysql.connector as sql
+from decimal import Decimal
 
 em=''
 pwd=''
@@ -37,6 +38,43 @@ def signaction(request):
             return render(request, 'error.html')
 
     return render(request, 'registre.html')
+
+
+def storeaction(request):
+    if request.method == "POST":
+       
+    
+        nom = request.POST.get('nom','')
+        description = request.POST.get('description' , '')
+        prix = request.POST.get('prix' , '')
+        stock = request.POST.get('stock', '')
+       
+        
+        
+        
+        try:
+            conn = sql.connect(host="localhost", user="root", passwd="123456789", database="registre")
+            cursor = conn.cursor()
+
+    
+            query = "INSERT INTO signinapp_article (nom, description, prix, stock) VALUES (%s,%s, %s, %s)"
+            data = (nom, description, prix, stock)
+            cursor.execute(query, data)
+
+        
+            conn.commit()
+
+            
+            cursor.close()
+            conn.close()
+        except Exception as e:
+        
+            print("Error:", e)
+            return render(request, 'error1.html')
+
+    return render(request, 'produit.html')
+
+
 
 def logaction(request):
     global em, pwd
