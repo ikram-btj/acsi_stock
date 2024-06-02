@@ -1,9 +1,12 @@
 from django.contrib import admin
-from django.urls import path , include
-from signinapp.views import signaction,logaction,storeaction
+from django.urls import path
+from signinapp.views import signaction, logaction, storeaction, get_articles
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('signinapp/', logaction , name='logaction'),
-     path('signinapp/', signaction , name='signaction'),
-      path('signinapp/', storeaction , name='storeaction'),
+    path('signinapp/signup/', signaction, name='signaction'),
+    path('signinapp/login/', logaction, name='logaction'),
+    path('signinapp/store/', storeaction, name='storeaction'),
+    path('signinapp/get_articles/', get_articles, name='get_articles'),
 ]
+

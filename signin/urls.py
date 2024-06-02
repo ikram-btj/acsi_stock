@@ -24,6 +24,7 @@ urlpatterns = [
     path('signinapp/registre.html',signaction ),
      path('signinapp/produit.html',storeaction ),
 
+
     
 
 ]

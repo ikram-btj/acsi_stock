@@ -1,80 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de stock</title>
     <!-- Include Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 p-4">
+  </head>
+  <body class="bg-gray-100 p-4">
     <div class="max-w-md mx-auto bg-white rounded p-6 shadow-md">
-        <h1 class="text-2xl font-bold mb-4">Ajouter un article</h1>
-        <form id="articleForm"  method="POST" >
-            {% csrf_token %}
-            <div class="mb-4">
-                <label for="nom" class="block text-gray-700 font-bold mb-2">Nom de l'article :</label>
-                <input type="text" required id="nom" maxlength="20"  name="nom" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez le nom de l'article">
-            </div>
-            <div class="mb-4">
-                <label for="description" class="block text-gray-700 font-bold mb-2">Description :</label>
-                <input id="description" required maxlength="50" type='text' name="description" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez la description de l'article"></input>
-            </div>
-            <div class="mb-4">
-                <label for="prix" class="block text-gray-700 font-bold mb-2">Prix :</label>
-                <input type="number" step="0.01" required id="prix" name="prix" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez le prix de l'article">
-            </div>
-            <div class="mb-4">
-                <label for="stock" class="block text-gray-700 font-bold mb-2">Stock :</label>
-                <input type="number" required id="stock" name="stock" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez la quantité en stock">
-            </div>
-        
-            <div class="mt-6">
-                <button type="submit"  class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Ajouter l'article</button>
-            </div>
-        </form>
+      <h1 class="text-2xl font-bold mb-4">Ajouter un article</h1>
+
+      <form id="articleForm" method="POST">
+        {% csrf_token %}
+        <div class="mb-4">
+          <label for="nom" class="block text-gray-700 font-bold mb-2">Nom de l'article :</label>
+          <input type="text" required id="nom" maxlength="20" name="nom" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez le nom de l'article">
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block text-gray-700 font-bold mb-2">Description :</label>
+          <input id="description" required maxlength="50" type="text" name="description" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez la description de l'article">
+        </div>
+        <div class="mb-4">
+          <label for="prix" class="block text-gray-700 font-bold mb-2">Prix :</label>
+          <input type="number" step="0.01" required id="prix" name="prix" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez le prix de l'article">
+        </div>
+        <div class="mb-4">
+          <label for="stock" class="block text-gray-700 font-bold mb-2">Stock :</label>
+          <input type="number" required id="stock" name="stock" class="w-full px-3 py-2 border rounded-md" placeholder="Entrez la quantité en stock">
+        </div>
+
+        <div class="mt-6">
+          <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Ajouter l'article</button>
+        </div>
+      </form>
     </div>
 
-    <div class="mt-8">
-        <h2 class="text-2xl font-bold mb-4">Liste des articles</h2>
-        <table class="w-full border-collapse border border-gray-300">
-            <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">Nom</th>
-                    <th class="border border-gray-300 px-4 py-2">Action</th>
-                </tr>
-            </thead>
-            <tbody id="articleTab"></tbody>
-        </table>
-    </div>
+    <table class="w-full text-sm mt-8 text-center text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th class="py-4">id</th>
+          <th>article</th>
+          <th>description</th>
+          <th>prix</th>
+          <th>stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in articles %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          {% for a in article %}
+          <td class="px-6 py-3">{{ a }}</td>
+          {% endfor %}
+         
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-    <script>
-        function ajouterArticle() {
-            const nom = document.getElementById('nom').value;
-            const description = document.getElementById('description').value;
-            const prix = document.getElementById('prix').value;
-            const stock = document.getElementById('stock').value;
-           
-
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td class="border border-gray-300 px-4 py-2">${nom}</td>
-                <th class="border border-gray-300 px-4 py-2">
-                    <button onclick="supprimerLigne(this)" class="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">Supprimer</button>
-                </th>
-            `;
-
-            document.getElementById('articleTab').appendChild(newRow);
-
-            document.getElementById('articleForm').reset();
-        }
-
-        function supprimerLigne(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
-
-    </script>
-</body>
+   
+  </body>
 </html>
 
